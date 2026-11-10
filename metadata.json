@@ -1,0 +1,6 @@
+{
+  "name": "Campanha do Bem - Apoio com Parkinson",
+  "description": "Campanha de arrecadação para apoio ao trabalhador com Parkinsonismo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
