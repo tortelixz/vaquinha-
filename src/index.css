@@ -173,22 +173,22 @@
 .topCampaign h1 {
   font-family: 'Montserrat', sans-serif;
   color: #0f172a;
-  font-weight: 700;
-  font-size: clamp(22px, 4.5vw, 36px);
-  line-height: 1.2;
+  font-weight: 800;
+  font-size: clamp(24px, 5.2vw, 38px);
+  line-height: 1.25;
   letter-spacing: -0.02em;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
   text-align: center;
   max-width: 680px;
 }
 .campaign-subheadline {
   font-family: 'Montserrat', sans-serif;
   color: #475569;
-  font-size: clamp(15px, 2.5vw, 17px);
-  line-height: 1.55;
+  font-size: clamp(16px, 3.2vw, 19px);
+  line-height: 1.6;
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 20px;
+  margin: 0 auto 22px;
 }
 
 /* Hero Image Card */
@@ -212,17 +212,18 @@
   border-top: none;
   border-radius: 0 0 12px 12px;
   background: #f8fafc;
-  padding: 10px 16px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 .beneficiary-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #475569;
-  font-size: 13px;
+  color: #334155;
+  font-size: 14.5px;
+  font-weight: 500;
 }
 
 /* Progress Section */
@@ -241,20 +242,20 @@
   margin-bottom: 8px;
 }
 .progress-label {
-  font-size: 11px;
-  color: #94a3b8;
+  font-size: 12px;
+  color: #64748b;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
 .progress-percent {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   color: #24CA68;
 }
 .progress-bar-bg {
   background: #f1f5f9;
-  height: 10px;
+  height: 12px;
   border-radius: 999px;
   overflow: hidden;
   width: 100%;
@@ -266,12 +267,12 @@
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .arrecadacao-text {
-  font-size: 14px;
+  font-size: 15px;
   color: #64748b;
   margin-top: 12px;
 }
 .arrecadacao-text strong {
-  font-size: clamp(24px, 4vw, 30px);
+  font-size: clamp(26px, 4.8vw, 32px);
   color: #24CA68;
   font-weight: 800;
 }
@@ -289,10 +290,10 @@
 }
 .menu-detalhes-item {
   font-family: 'Montserrat', sans-serif;
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #64748b;
-  padding: 8px 16px;
+  padding: 10px 18px;
   border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -330,63 +331,77 @@
   border: 1px solid rgba(36, 202, 104, 0.22);
 }
 .story-v2__heading {
-  font-size: clamp(19px, 3.5vw, 24px);
-  font-weight: 700;
+  font-size: clamp(21px, 4.2vw, 26px);
+  font-weight: 800;
   color: #0f172a;
-  line-height: 1.3;
-  margin: 0 0 14px;
+  line-height: 1.35;
+  margin: 0 0 16px;
   text-align: center;
 }
 .story-v2__lead {
-  font-size: clamp(15.5px, 2.5vw, 17px);
-  line-height: 1.8;
-  color: #475569;
+  font-size: clamp(17px, 3.2vw, 19px);
+  line-height: 1.75;
+  color: #334155;
+  font-weight: 600;
+}
+.story-content p {
+  font-size: clamp(16px, 3vw, 18px);
+  line-height: 1.75;
+  color: #334155;
 }
 .story-v2__list {
   list-style: none;
   padding: 0;
-  margin: 14px 0 20px;
+  margin: 16px 0 22px;
 }
 .story-v2__list li {
   position: relative;
-  padding: 10px 0 10px 30px;
-  font-size: 15px;
-  line-height: 1.5;
-  color: #475569;
+  padding: 12px 0 12px 34px;
+  font-size: clamp(16px, 3vw, 18px);
+  line-height: 1.6;
+  color: #334155;
+  font-weight: 500;
   border-bottom: 1px solid #f1f5f9;
 }
 .story-v2__list li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 12px;
-  width: 18px;
-  height: 18px;
+  top: 14px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background-color: #ecfdf5;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2324CA68' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
-  background-size: 11px 11px;
+  background-size: 12px 12px;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .inline-story-cta {
-  background: #24CA68;
-  color: #ffffff;
-  border: 1px solid #24CA68;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(15px, 3vw, 17px);
-  padding: 15px 32px;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(36, 202, 104, 0.25);
-  transition: all 0.2s ease;
+  background-color: #24CA68 !important;
+  color: #ffffff !important;
+  border: 1px solid #24CA68 !important;
+  font-family: 'Montserrat', 'Roboto', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(19px, 4.5vw, 22px) !important;
+  padding: 16px 28px !important;
+  min-height: 56px !important;
+  border-radius: 12px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 18px rgba(36, 202, 104, 0.35) !important;
+  transition: all 0.2s ease-in-out !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  letter-spacing: 0.5px !important;
 }
 .inline-story-cta:hover {
-  background: #1fab58;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(36, 202, 104, 0.35);
+  background-color: #1fab58 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 24px rgba(36, 202, 104, 0.45) !important;
 }
 
 /* Updates Card */
@@ -406,7 +421,7 @@
   margin-bottom: 10px;
 }
 .campaign-update-date {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #94a3b8;
   text-transform: uppercase;
@@ -415,19 +430,19 @@
 .campaign-update-tag {
   background: rgba(36, 202, 104, 0.1);
   color: #1fab58;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 700;
   padding: 3px 10px;
   border-radius: 999px;
 }
 .campaign-update-title {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #0f172a;
   margin: 4px 0 8px;
 }
 .campaign-update-body {
-  font-size: 14.5px;
+  font-size: 15.5px;
   color: #475569;
   line-height: 1.65;
 }
@@ -453,8 +468,8 @@
 }
 .people-saying-title {
   text-align: center;
-  font-size: clamp(16px, 3.4vw, 19px);
-  font-weight: 700;
+  font-size: clamp(18px, 4vw, 21px);
+  font-weight: 800;
   color: #0f172a;
   margin: 0;
   padding-bottom: 14px;
@@ -468,7 +483,7 @@
   border-bottom: none;
 }
 .donation-badge {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   color: #1fab58;
   background: rgba(36, 202, 104, 0.1);
@@ -479,36 +494,66 @@
 
 /* Fixed Bottom CTA */
 #fixed-mobile {
-  background: #ffffff;
-  padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) 16px;
+  background-color: #ffffff;
   border-top: 1px solid #e2e8f0;
+  border-radius: 16px 16px 0px 0px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom)) 16px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 40;
+  z-index: 50;
   display: flex;
   justify-content: center;
-  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.06);
+  box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.12);
 }
-#fixed-mobile button.btn-ajudar {
-  background-color: #24CA68;
-  border: 1px solid #24CA68;
-  color: #ffffff;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(15px, 3vw, 17px);
-  padding: 14px 22px;
-  border-radius: 12px;
+#fixed-mobile .cta-inner {
   width: 100%;
-  max-width: 680px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(36, 202, 104, 0.25);
-  transition: background 0.2s ease;
+  max-width: 720px;
+  display: flex;
+  justify-content: center;
 }
+#fixed-mobile .btn-ajudar,
+#fixed-mobile a.btn-ajudar,
+#fixed-mobile button.btn-ajudar {
+  background-color: #24CA68 !important;
+  border: 1px solid #24CA68 !important;
+  color: #ffffff !important;
+  font-family: 'Montserrat', 'Roboto', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: clamp(19px, 4.5vw, 22px) !important;
+  line-height: 1.2 !important;
+  padding: 14px 22px !important;
+  min-height: 56px !important;
+  border-radius: 12px !important;
+  width: 100% !important;
+  max-width: 720px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 18px rgba(36, 202, 104, 0.38) !important;
+  transition: all 0.2s ease-in-out !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  letter-spacing: 0.5px !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+#fixed-mobile .btn-ajudar:hover,
+#fixed-mobile a.btn-ajudar:hover,
 #fixed-mobile button.btn-ajudar:hover {
-  background-color: #1fab58;
-  border-color: #1fab58;
+  background-color: #1fab58 !important;
+  border-color: #1fab58 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 24px rgba(36, 202, 104, 0.48) !important;
+}
+#fixed-mobile .btn-ajudar:active,
+#fixed-mobile a.btn-ajudar:active,
+#fixed-mobile button.btn-ajudar:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 2px 10px rgba(36, 202, 104, 0.3) !important;
 }
 
 /* Footer */

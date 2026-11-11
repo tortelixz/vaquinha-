@@ -110,6 +110,21 @@ export default function App() {
     },
   ]);
 
+  const DEFAULT_CHECKOUT_URL = "https://pay.sharkautomacoes.com/c2568e0d";
+
+  // Custom CTA Redirect URL state
+  const [customCtaRedirect, setCustomCtaRedirect] = useState<string>(DEFAULT_CHECKOUT_URL);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const linkParam = params.get('link') || params.get('redirect') || params.get('checkout');
+    if (linkParam) {
+      setCustomCtaRedirect(linkParam);
+    } else if ((window as any).CUSTOM_CTA_URL) {
+      setCustomCtaRedirect((window as any).CUSTOM_CTA_URL);
+    }
+  }, []);
+
   // Handle Exit Intent Detection
   useEffect(() => {
     const handleMouseLeave = (e: MouseEvent) => {
@@ -138,21 +153,6 @@ export default function App() {
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
   };
-
-  const DEFAULT_CHECKOUT_URL = "https://pay.sharkautomacoes.com/c2568e0d";
-
-  // Custom CTA Redirect URL state
-  const [customCtaRedirect, setCustomCtaRedirect] = useState<string>(DEFAULT_CHECKOUT_URL);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const linkParam = params.get('link') || params.get('redirect') || params.get('checkout');
-    if (linkParam) {
-      setCustomCtaRedirect(linkParam);
-    } else if ((window as any).CUSTOM_CTA_URL) {
-      setCustomCtaRedirect((window as any).CUSTOM_CTA_URL);
-    }
-  }, []);
 
   const handleOpenDonateModal = () => {
     if (customCtaRedirect) {
@@ -258,6 +258,8 @@ export default function App() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const checkoutTargetUrl = customCtaRedirect || DEFAULT_CHECKOUT_URL;
+
   return (
     <div className="min-h-screen bg-[#f9f9f9] text-[#282828] flex flex-col font-sans">
       {/* HEADER */}
@@ -323,15 +325,13 @@ export default function App() {
                   Quem ajudou
                 </button>
                 <div className="h-px bg-slate-100 my-1" />
-                <button
-                  className="site-header__menu-item site-header__menu-cta"
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    handleOpenDonateModal();
-                  }}
+                <a
+                  href={checkoutTargetUrl}
+                  className="site-header__menu-item site-header__menu-cta text-decoration-none"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Doar agora
-                </button>
+                </a>
               </div>
             )}
           </div>
@@ -357,6 +357,8 @@ export default function App() {
                 src="/assets/aistudio/hero_neuza.png"
                 alt="Neuza e seus filhos enfrentam a fome e a doença grave da filha"
                 className="w-full h-auto object-cover"
+                loading="eager"
+                decoding="async"
               />
             </div>
 
@@ -503,13 +505,12 @@ export default function App() {
                     Qualquer valor, por menor que seja, garante o alimento de hoje e traz esperança para essa casa.
                   </p>
 
-                  <button
-                    type="button"
-                    className="inline-story-cta"
-                    onClick={handleOpenDonateModal}
+                  <a
+                    href={checkoutTargetUrl}
+                    className="inline-story-cta block text-center text-decoration-none"
                   >
                     ❤️ AJUDAR AGORA
-                  </button>
+                  </a>
                 </section>
               </div>
             </div>
@@ -534,13 +535,12 @@ export default function App() {
                     Cada doação recebida se transforma em pratos de comida na mesa e alívio para o coração dessa mãe desamparada.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
-                    <button
-                      type="button"
-                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
-                      onClick={handleOpenDonateModal}
+                    <a
+                      href={checkoutTargetUrl}
+                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                    </a>
                   </div>
                 </div>
 
@@ -554,13 +554,12 @@ export default function App() {
                     Estamos unidos para garantir que nenhuma criança volte a dormir com fome e que a filhinha doente receba os cuidados necessários.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
-                    <button
-                      type="button"
-                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
-                      onClick={handleOpenDonateModal}
+                    <a
+                      href={checkoutTargetUrl}
+                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                    </a>
                   </div>
                 </div>
 
@@ -574,13 +573,12 @@ export default function App() {
                     Lançamos esta arrecadação com urgência para tirar essa mãe e suas crianças da extrema vulnerabilidade.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
-                    <button
-                      type="button"
-                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
-                      onClick={handleOpenDonateModal}
+                    <a
+                      href={checkoutTargetUrl}
+                      className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -595,7 +593,7 @@ export default function App() {
                   {/* Avatar stack */}
                   <div className="flex -space-x-2 overflow-hidden mb-3">
                     <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="/assets/aistudio/avs_6ac13d13.svg" alt="Apoiador" />
-                    <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="/assets/aistudio/banner-4007_5c1e194b.webp" alt="Apoiador" />
+                    <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="/assets/aistudio/hero_neuza.png" alt="Apoiador" />
                     <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="/assets/aistudio/imm_71b7e7c6.svg" alt="Apoiador" />
                     <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="/assets/aistudio/kc_df5bf926.webp" alt="Apoiador" />
                     <img className="inline-block h-8 w-8 rounded-full ring-2 ring-white object-cover" src="/assets/aistudio/lo_07b9845d.webp" alt="Apoiador" />
@@ -666,13 +664,12 @@ export default function App() {
 
       {/* FIXED BOTTOM CTA BAR */}
       <div id="fixed-mobile">
-        <button
-          type="button"
-          className="btn-ajudar"
-          onClick={handleOpenDonateModal}
+        <a
+          href={checkoutTargetUrl}
+          className="btn-ajudar text-center flex items-center justify-center text-decoration-none"
         >
           ❤️ AJUDAR AGORA
-        </button>
+        </a>
       </div>
 
       {/* FOOTER */}
@@ -763,36 +760,33 @@ export default function App() {
 
                 <div className="donation-option-grid">
                   {[30, 50, 70].map((amt) => (
-                    <button
+                    <a
                       key={amt}
-                      type="button"
-                      className="donation-btn"
-                      onClick={() => handleSelectAmount(amt)}
+                      href={`${checkoutTargetUrl}?valor=${amt}`}
+                      className="donation-btn text-decoration-none"
                     >
                       R${amt}
-                    </button>
+                    </a>
                   ))}
 
                   <div className="relative">
                     <span className="popular-tag">❤️ MAIS ESCOLHIDO</span>
-                    <button
-                      type="button"
-                      className="donation-btn highlight pt-4"
-                      onClick={() => handleSelectAmount(100)}
+                    <a
+                      href={`${checkoutTargetUrl}?valor=100`}
+                      className="donation-btn highlight pt-4 text-decoration-none"
                     >
                       R$100
-                    </button>
+                    </a>
                   </div>
 
                   {[150, 200, 300, 500, 700, 1000].map((amt) => (
-                    <button
+                    <a
                       key={amt}
-                      type="button"
-                      className="donation-btn"
-                      onClick={() => handleSelectAmount(amt)}
+                      href={`${checkoutTargetUrl}?valor=${amt}`}
+                      className="donation-btn text-decoration-none"
                     >
                       R${amt.toLocaleString('pt-BR')}
-                    </button>
+                    </a>
                   ))}
                 </div>
 
@@ -1016,6 +1010,7 @@ export default function App() {
                 src="/assets/aistudio/hero_neuza.png"
                 alt="Neuza e seus filhos"
                 className="w-full h-full object-cover"
+                loading="eager"
               />
             </div>
 
@@ -1029,27 +1024,22 @@ export default function App() {
 
             <div className="grid grid-cols-2 gap-2 mb-3">
               {[20, 50, 70, 100].map((amt) => (
-                <button
+                <a
                   key={amt}
-                  type="button"
-                  className="py-2.5 bg-white border-2 border-[#24CA68] text-[#24CA68] font-bold text-base rounded-xl hover:bg-emerald-50 transition-colors"
-                  onClick={() => handleSelectAmount(amt)}
+                  href={`${checkoutTargetUrl}?valor=${amt}`}
+                  className="py-2.5 bg-white border-2 border-[#24CA68] text-[#24CA68] font-bold text-base rounded-xl hover:bg-emerald-50 transition-colors flex items-center justify-center text-decoration-none"
                 >
                   R${amt}
-                </button>
+                </a>
               ))}
             </div>
 
-            <button
-              type="button"
-              className="text-xs text-slate-400 hover:text-slate-600 underline font-medium"
-              onClick={() => {
-                setIsExitPopupOpen(false);
-                handleOpenDonateModal();
-              }}
+            <a
+              href={checkoutTargetUrl}
+              className="text-xs text-slate-400 hover:text-slate-600 underline font-medium block text-center mt-2"
             >
               Quero escolher outro valor
-            </button>
+            </a>
           </div>
         </div>
       )}

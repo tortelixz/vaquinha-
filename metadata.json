@@ -1,6 +1,6 @@
 {
-  "name": "Campanha Bem-Estar",
-  "description": "Campanha de arrecadação e apoio para Neuza e seus filhos.",
+  "name": "Campanha para Dona Neuza",
+  "description": "Campanha de arrecadação e apoio para Dona Neuza e seus filhos.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
