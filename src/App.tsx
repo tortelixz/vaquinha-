@@ -9,10 +9,7 @@ import {
   Check, 
   ChevronRight, 
   ThumbsUp, 
-  MessageCircle, 
-  Share2, 
   ShieldCheck, 
-  ArrowUp,
   Sparkles,
   QrCode
 } from 'lucide-react';
@@ -52,7 +49,6 @@ export default function App() {
   const [pixTimer, setPixTimer] = useState<number>(900); // 15:00
   const [donorNameInput, setDonorNameInput] = useState<string>('');
   const [donorCommentInput, setDonorCommentInput] = useState<string>('');
-  const [hasDonatedInSession, setHasDonatedInSession] = useState<boolean>(false);
 
   // Exit Popup State
   const [isExitPopupOpen, setIsExitPopupOpen] = useState<boolean>(false);
@@ -68,7 +64,7 @@ export default function App() {
       textColor: '#BE185D',
       time: 'há 3 min',
       amount: 50,
-      text: 'Ajuda feita. Força, senhor. Que gesto lindo entregar a sacola toda. ❤️',
+      text: 'Doação enviada com amor! Que Deus abençoe Neuza e alimente essa família. 🙏',
       likes: 341,
       isLiked: false,
       isLive: true,
@@ -81,7 +77,7 @@ export default function App() {
       textColor: '#1D4ED8',
       time: 'há 12 min',
       amount: 50,
-      text: 'Ajudei com R$ 50. Que ele consiga descansar e cuidar desse tremor.',
+      text: 'Ajudei com R$ 50 para garantir a comida da semana e um colchão digno para as crianças.',
       likes: 287,
       isLiked: false,
       isLive: true,
@@ -94,7 +90,7 @@ export default function App() {
       textColor: '#16A34A',
       time: 'há 18 min',
       amount: 25,
-      text: 'Compartilhei. R$ 10 de muita gente muda a situação dele rapidinho.',
+      text: 'Nenhuma mãe deveria passar pelo desespero de ver os filhos com fome. Força Neuza!',
       likes: 312,
       isLiked: false,
       isLive: true,
@@ -107,7 +103,7 @@ export default function App() {
       textColor: '#92400E',
       time: 'há 31 min',
       amount: 100,
-      text: 'Força, guerreiro. O senhor merece todo o amparo do mundo. 🙏',
+      text: 'Que a filhinha de Neuza se recupere logo! Minha contribuição está feita. ❤️',
       likes: 198,
       isLiked: false,
       isLive: false,
@@ -143,12 +139,40 @@ export default function App() {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
   };
 
+  // Custom CTA Redirect URL state
+  const [customCtaRedirect, setCustomCtaRedirect] = useState<string>('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const linkParam = params.get('link') || params.get('redirect') || params.get('checkout');
+    if (linkParam) {
+      setCustomCtaRedirect(linkParam);
+    } else if ((window as any).CUSTOM_CTA_URL) {
+      setCustomCtaRedirect((window as any).CUSTOM_CTA_URL);
+    }
+  }, []);
+
   const handleOpenDonateModal = () => {
+    if (customCtaRedirect) {
+      window.location.href = customCtaRedirect;
+      return;
+    }
     setIsDonateModalOpen(true);
     setIsCustomAmountStep(false);
   };
 
   const handleSelectAmount = (amount: number) => {
+    if (customCtaRedirect) {
+      try {
+        const url = new URL(customCtaRedirect, window.location.href);
+        url.searchParams.set('valor', amount.toString());
+        window.location.href = url.toString();
+        return;
+      } catch {
+        window.location.href = customCtaRedirect;
+        return;
+      }
+    }
     setSelectedAmount(amount);
     setIsDonateModalOpen(false);
     setIsExitPopupOpen(false);
@@ -167,7 +191,7 @@ export default function App() {
   };
 
   const handleCopyPix = () => {
-    const pixCode = `00020126580014br.gov.bcb.pix0136campanhadobem-parkinson-ref4007520400005303986540${selectedAmount}.005802BR5925CAMPANHA DO BEM APOIO6009SAO PAULO62070503***6304E8A9`;
+    const pixCode = `00020126580014br.gov.bcb.pix0136campanhadobem-neuza-ref4007520400005303986540${selectedAmount}.005802BR5925CAMPANHA DO BEM NEUZA6009SAO PAULO62070503***6304E8A9`;
     navigator.clipboard.writeText(pixCode);
     setPixCopied(true);
     setTimeout(() => setPixCopied(false), 3000);
@@ -177,7 +201,6 @@ export default function App() {
     setPixPaid(true);
     setRaisedAmount((prev) => prev + selectedAmount);
     setBackerCount((prev) => prev + 1);
-    setHasDonatedInSession(true);
   };
 
   const handleAddComment = (e: React.FormEvent) => {
@@ -199,7 +222,7 @@ export default function App() {
       textColor: '#15803D',
       time: 'agora',
       amount: selectedAmount,
-      text: donorCommentInput.trim() || 'Fiz minha doação com muito carinho para ajudar esta família!',
+      text: donorCommentInput.trim() || 'Que Deus abençoe Neuza e seus filhos com muita saúde e comida na mesa!',
       likes: 1,
       isLiked: true,
       isLive: true,
@@ -239,15 +262,15 @@ export default function App() {
       <header className="site-header">
         <div className="site-header__inner">
           <div className="site-header__left">
-            <a href="#topo" className="site-header__brand" aria-label="Campanha para esta família">
+            <a href="#topo" className="site-header__brand" aria-label="Campanha para Neuza e seus filhos">
               <svg className="site-header__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="32" rx="8" fill="#24CA68" />
                 <path d="M16 23.5s-7-4.2-7-9.3c0-2.3 1.7-4 3.7-4 1.3 0 2.4.7 3.3 1.8.9-1.1 2-1.8 3.3-1.8 2 0 3.7 1.7 3.7 4 0 5.1-7 9.3-7 9.3z" fill="#FFFFFF" />
               </svg>
               <span className="wm-text">
                 <span>Campanha</span>
-                <span className="wm-mid">do</span>
-                <span>esta família</span>
+                <span className="wm-mid">da</span>
+                <span>Neuza</span>
               </span>
             </a>
           </div>
@@ -318,10 +341,10 @@ export default function App() {
         <div className="max-w-[720px] mx-auto px-4 pt-6">
           {/* TOP CAMPAIGN HEADLINE */}
           <div className="topCampaign">
-            <span className="category-badge">SAÚDE / TRABALHO</span>
-            <h1>Quase sem aguentar andar pelo Parkinson, ele ainda ofereceu a sacola toda de doces</h1>
+            <span className="category-badge">SAÚDE / ALIMENTAÇÃO</span>
+            <h1>Sem ter o que dar de comer à filha doente, Neuza ainda luta para não vê-la dormir com fome no chão frio. 💔</h1>
             <p className="campaign-subheadline">
-              Vivendo uma situação que só Deus sabe, ele trabalha nas ruas vendendo paçoquinhas mesmo enfrentando os fortes tremores no corpo.
+              Com a filha gravemente doente e correndo risco de morrer, Neuza enfrenta a extrema pobreza e a falta de comida dentro de casa.
             </p>
           </div>
 
@@ -330,12 +353,8 @@ export default function App() {
             <div className="hero-image-container">
               <img
                 src="/assets/aistudio/banner-4007_5c1e194b.webp"
-                alt="Quase sem aguentar andar pelo Parkinson, ele ainda ofereceu a sacola toda de doces"
+                alt="Neuza e seus filhos enfrentam a fome e a doença grave da filha"
                 className="w-full h-auto object-cover"
-                onError={(e) => {
-                  // Fallback to local image or styled placeholder if needed
-                  (e.target as HTMLElement).style.display = 'block';
-                }}
               />
             </div>
 
@@ -343,7 +362,7 @@ export default function App() {
               <div className="beneficiary-row">
                 <Heart className="w-3.5 h-3.5 text-[#24CA68] fill-[#24CA68] shrink-0" />
                 <span>
-                  Campanha de <strong>Esta família</strong>
+                  Campanha de <strong>Neuza e seus filhos</strong>
                   <img
                     src="/assets/aistudio/perfil-verificado_39b21c08.png"
                     alt="Verificado"
@@ -361,7 +380,7 @@ export default function App() {
           {/* PROGRESS CARD */}
           <div className="resumo-card">
             <div className="progress-eyebrow">
-              <span className="progress-label">Progresso da Campanha</span>
+              <span className="progress-label">Progresso da Arrecadação</span>
               <span className="progress-percent">{progressPercent}%</span>
             </div>
 
@@ -418,23 +437,23 @@ export default function App() {
                   </div>
 
                   <h3 className="story-v2__heading">
-                    A generosidade de quem quase não aguenta andar, mas não desiste de trabalhar
+                    A dor de uma mãe que vê a filha doente sem ter um prato de comida para oferecer
                   </h3>
 
                   <p className="story-v2__lead">
-                    Mesmo enfrentando os tremores do parkinsonismo e dificuldades severas para caminhar, ele sai às ruas todos os dias para vender seus docinhos.
+                    Com a filha gravemente doente, fraca e correndo risco de vida, Neuza enfrenta todos os dias o pesadelo da fome dentro da própria casa.
                   </p>
 
                   <p className="text-slate-600 leading-relaxed mb-4">
-                    Quando um rapaz se aproximou na rua perguntando se podia comprar uma paçoquinha para pagar depois, a resposta desse senhor surpreendeu. Sem hesitar, ele disse que não daria apenas uma, mas entregaria a sacola inteira. Mesmo precisando de cada venda para sobreviver, o primeiro impulso dele foi ajudar quem parecia precisar naquele momento.
+                    Imagine o desespero de uma mãe ao olhar nos olhos de seus filhos, ouvir o pedido de um pedaço de pão e saber que os armários estão completamente vazios. Neuza vive essa angústia diariamente, dividida entre cuidar da filhinha doente, que precisa de suporte urgente, e tentar arranjar o mínimo de alimento para que suas outras crianças não passem fome.
                   </p>
 
                   <p className="text-slate-600 leading-relaxed mb-4">
-                    A rotina nas ruas, porém, cobra um preço muito alto do seu corpo. Segundo o relato dele mesmo, está cada dia mais difícil continuar caminhando por causa do tremor constante provocado pelo parkinsonismo. Ele faz questão de repetir que não está pedindo esmola e que ninguém tem obrigação de ajudar, apenas pede uma força na compra dos seus doces.
+                    Quando a noite chega, a dor se torna ainda mais dura. Sem condições de comprar um colchão, a família precisa enfrentar a dificuldade e o frio de dormir direto no chão. Neuza não pede nada além do essencial: comida na mesa para seus filhos e condições dignas de descanso.
                   </p>
 
                   <p className="text-slate-600 leading-relaxed">
-                    Por trás da educação e da voz calma de quem agradece a Deus por tudo, existe uma urgência silenciosa. Ao pedir que divulgassem o seu contato na internet, ele desabafou que vive uma situação difícil que só Deus sabe. Esta campanha existe para garantir que ele tenha amparo, cuidado e descanso, sem precisar forçar o próprio corpo até o limite.
+                    Nenhuma mãe deveria enfrentar sozinha a angústia de ver os filhos chorando de fome enquanto luta pela vida de uma filha doente. Esta arrecadação existe para colocar alimentos na mesa de Neuza, aliviar a dor das crianças e garantir um colchão para que possam descansar com dignidade.
                   </p>
                 </section>
 
@@ -448,20 +467,20 @@ export default function App() {
                   </div>
 
                   <h3 className="story-v2__heading">
-                    Cuidados de saúde, sustento e descanso
+                    Alimentação, remédios básicos e descanso digno
                   </h3>
 
                   <p className="story-v2__lead mb-4">
-                    Sua doação vai direto para aliviar o peso de quem trabalha com dor e dificuldade todos os dias.
+                    Sua doação vai direto para colocar comida na mesa e amparar os filhos de Neuza nesta fase tão difícil.
                   </p>
 
                   <p className="font-semibold text-slate-800 mb-2">A ajuda será usada em:</p>
                   <ul className="story-v2__list">
-                    <li>Apoio direto para as despesas urgentes de casa e alimentação diária</li>
-                    <li>Custeio de medicamentos e cuidados necessários para lidar com os tremores</li>
-                    <li>Fôlego financeiro para que ele não precise caminhar até a exaustão nas ruas</li>
-                    <li>Segurança para enfrentar essa situação difícil com dignidade e amparo</li>
-                    <li>Reposição das mercadorias para que ele trabalhe apenas quando tiver condições</li>
+                    <li>Alimentos essenciais e mantimentos de primeira necessidade para as crianças</li>
+                    <li>Suporte básico para os cuidados e remédios da filhinha gravemente doente</li>
+                    <li>Compra de colchões e cobertas para tirar a família do chão frio</li>
+                    <li>Segurança alimentar para que as crianças não voltem a dormir com fome</li>
+                    <li>Dignidade e acolhimento para aliviar o sofrimento diário desta mãe</li>
                   </ul>
                 </section>
 
@@ -475,11 +494,11 @@ export default function App() {
                   </div>
 
                   <h3 className="story-v2__heading">
-                    Fica do lado desse trabalhador
+                    Ajude essa mãe a alimentar seus filhos
                   </h3>
 
                   <p className="story-v2__lead mb-6">
-                    Qualquer valor faz diferença. Se não puder agora, compartilhe.
+                    Qualquer valor, por menor que seja, garante o alimento de hoje e traz esperança para essa casa.
                   </p>
 
                   <button
@@ -487,7 +506,7 @@ export default function App() {
                     className="inline-story-cta"
                     onClick={handleOpenDonateModal}
                   >
-                    ❤️ AJUDAR AGORA
+                    ❤️ QUERO AJUDAR NEUZA E SEUS FILHOS
                   </button>
                 </section>
               </div>
@@ -508,9 +527,9 @@ export default function App() {
                     <span className="campaign-update-date">8 de novembro de 2026</span>
                     <span className="campaign-update-tag">Atualização</span>
                   </div>
-                  <h3 className="campaign-update-title">Cada doação alivia o peso das ruas</h3>
+                  <h3 className="campaign-update-title">Sua ajuda é a esperança para os filhos de Neuza</h3>
                   <p className="campaign-update-body">
-                    A corrente do bem está crescendo para que ele possa cuidar da saúde e descansar das longas caminhadas.
+                    Cada doação recebida se transforma em pratos de comida na mesa e alívio para o coração dessa mãe desamparada.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
                     <button
@@ -518,7 +537,7 @@ export default function App() {
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
                       onClick={handleOpenDonateModal}
                     >
-                      Ajudar esta família agora <ChevronRight className="w-3.5 h-3.5" />
+                      Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -528,9 +547,9 @@ export default function App() {
                     <span className="campaign-update-date">8 de novembro de 2026</span>
                     <span className="campaign-update-tag">Atualização</span>
                   </div>
-                  <h3 className="campaign-update-title">A história dele emocionou muita gente</h3>
+                  <h3 className="campaign-update-title">Mobilização urgente pela alimentação da família</h3>
                   <p className="campaign-update-body">
-                    O gesto de oferecer a sacola inteira de paçoquinhas tocou milhares de corações pela internet.
+                    Estamos unidos para garantir que nenhuma criança volte a dormir com fome e que a filhinha doente receba os cuidados necessários.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
                     <button
@@ -538,7 +557,7 @@ export default function App() {
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
                       onClick={handleOpenDonateModal}
                     >
-                      Ajudar esta família agora <ChevronRight className="w-3.5 h-3.5" />
+                      Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -548,9 +567,9 @@ export default function App() {
                     <span className="campaign-update-date">8 de novembro de 2026</span>
                     <span className="campaign-update-tag">Atualização</span>
                   </div>
-                  <h3 className="campaign-update-title">Campanha iniciada</h3>
+                  <h3 className="campaign-update-title">Campanha em prol de Neuza iniciada</h3>
                   <p className="campaign-update-body">
-                    Unimos forças para espalhar o pedido de ajuda desse senhor pelo Brasil inteiro.
+                    Lançamos esta arrecadação com urgência para tirar essa mãe e suas crianças da extrema vulnerabilidade.
                   </p>
                   <div className="mt-4 pt-3 border-t border-slate-100">
                     <button
@@ -558,7 +577,7 @@ export default function App() {
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2"
                       onClick={handleOpenDonateModal}
                     >
-                      Ajudar esta família agora <ChevronRight className="w-3.5 h-3.5" />
+                      Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
@@ -650,7 +669,7 @@ export default function App() {
           className="btn-ajudar"
           onClick={handleOpenDonateModal}
         >
-          ❤️ AJUDAR AGORA
+          ❤️ AJUDAR NEUZA AGORA
         </button>
       </div>
 
@@ -736,7 +755,7 @@ export default function App() {
                     Quanto você consegue hoje? 🧡
                   </h3>
                   <span className="text-[11px] font-bold text-slate-400 tracking-wider uppercase">
-                    CADA VALOR AJUDA ESTA FAMÍLIA
+                    CADA VALOR ALIMENTA E DÁ DIGNIDADE À FAMÍLIA DE NEUZA
                   </span>
                 </div>
 
@@ -784,14 +803,14 @@ export default function App() {
                 </button>
 
                 <ul className="donate-impact-list">
-                  <li><strong>R$30</strong> = um pouco do que falta agora</li>
-                  <li><strong>R$50</strong> = parte do cuidado do dia</li>
-                  <li><strong>R$70</strong> = transporte no dia</li>
-                  <li><strong>R$100</strong> = um passo no tratamento</li>
-                  <li><strong>R$150</strong> = mais um passo no cuidado</li>
-                  <li><strong>R$200</strong> = apoio da semana</li>
-                  <li><strong>R$300</strong> = parte do tratamento</li>
-                  <li><strong>R$500</strong> = aproxima o cuidado desta família</li>
+                  <li><strong>R$30</strong> = alimento imediato para as crianças hoje</li>
+                  <li><strong>R$50</strong> = cesta de mantimentos essenciais para a semana</li>
+                  <li><strong>R$70</strong> = leite, pão e alimentos para a filhinha doente</li>
+                  <li><strong>R$100</strong> = ajuda na compra de mantimentos e um colchão</li>
+                  <li><strong>R$150</strong> = comida na mesa e apoio nos cuidados básicos</li>
+                  <li><strong>R$200</strong> = sustento da família e agasalhos para o frio</li>
+                  <li><strong>R$300</strong> = alimentos para o mês e descanso digno</li>
+                  <li><strong>R$500</strong> = transforma a realidade de Neuza e seus filhos</li>
                 </ul>
               </>
             ) : (
@@ -800,7 +819,7 @@ export default function App() {
                   Digite outro valor
                 </h3>
                 <p className="text-xs text-slate-500 text-center mb-4">
-                  Insira o valor que deseja doar (mínimo R$ 5)
+                  Insira o valor que deseja doar para ajudar Neuza (mínimo R$ 5)
                 </p>
 
                 <div className="relative mb-4">
@@ -928,7 +947,7 @@ export default function App() {
                   Doação Confirmada! 🎉
                 </h3>
                 <p className="text-sm text-slate-600 mb-4">
-                  Muito obrigado por apoiar com <strong>{formatCurrency(selectedAmount)}</strong>. Sua generosidade ajuda este senhor a ter tratamento e descanso.
+                  Muito obrigado por apoiar com <strong>{formatCurrency(selectedAmount)}</strong>. Sua generosidade ajuda Neuza a alimentar seus filhos e dar um teto digno às crianças.
                 </p>
 
                 <form onSubmit={handleAddComment} className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-left space-y-3">
@@ -956,7 +975,7 @@ export default function App() {
                     </label>
                     <textarea
                       rows={2}
-                      placeholder="Deixe uma palavra de força e esperança..."
+                      placeholder="Deixe uma palavra de força e esperança para Neuza..."
                       value={donorCommentInput}
                       onChange={(e) => setDonorCommentInput(e.target.value)}
                       className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-none focus:border-[#24CA68]"
@@ -993,17 +1012,17 @@ export default function App() {
             <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mx-auto mb-3">
               <img
                 src="/assets/aistudio/banner-4007_5c1e194b.webp"
-                alt="Campanha"
+                alt="Neuza e seus filhos"
                 className="w-full h-full object-cover"
               />
             </div>
 
             <h2 className="text-xl font-extrabold text-slate-900 mb-2">
-              Não saia sem ajudar este senhor
+              Não saia sem ajudar Neuza e seus filhos
             </h2>
 
             <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-              Antes de sair, lembra: ele ofereceu a sacola inteira mesmo quase sem conseguir andar. Entra e ajuda.
+              Antes de sair, lembre-se: enquanto você lê isto, uma mãe chora sem saber o que dar de comer aos filhos hoje. Uma pequena doação muda essa história.
             </p>
 
             <div className="grid grid-cols-2 gap-2 mb-3">
@@ -1027,7 +1046,7 @@ export default function App() {
                 handleOpenDonateModal();
               }}
             >
-              Escolher outro valor
+              Quero escolher outro valor
             </button>
           </div>
         </div>
