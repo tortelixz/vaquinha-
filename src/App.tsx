@@ -13,6 +13,7 @@ import {
   Sparkles,
   QrCode
 } from 'lucide-react';
+import { initMetaPixel, trackMetaEvent } from './metaPixel';
 
 interface Comment {
   id: string;
@@ -112,18 +113,43 @@ export default function App() {
 
   const DEFAULT_CHECKOUT_URL = "https://pay.sharkautomacoes.com/c2568e0d";
 
-  // Custom CTA Redirect URL state
+  // Custom CTA Redirect URL state with query string forwarding for Facebook Ads (fbclid, UTMs)
   const [customCtaRedirect, setCustomCtaRedirect] = useState<string>(DEFAULT_CHECKOUT_URL);
 
   useEffect(() => {
+    initMetaPixel();
+
     const params = new URLSearchParams(window.location.search);
     const linkParam = params.get('link') || params.get('redirect') || params.get('checkout');
-    if (linkParam) {
-      setCustomCtaRedirect(linkParam);
-    } else if ((window as any).CUSTOM_CTA_URL) {
-      setCustomCtaRedirect((window as any).CUSTOM_CTA_URL);
+    const targetBase = linkParam || (window as any).CUSTOM_CTA_URL || DEFAULT_CHECKOUT_URL;
+
+    try {
+      const url = new URL(targetBase, window.location.href);
+      // Forward all incoming tracking parameters (fbclid, utm_source, utm_campaign, etc.) to destination URL
+      params.forEach((val, key) => {
+        if (!['link', 'redirect', 'checkout'].includes(key)) {
+          url.searchParams.set(key, val);
+        }
+      });
+      setCustomCtaRedirect(url.toString());
+    } catch {
+      setCustomCtaRedirect(targetBase);
     }
   }, []);
+
+  // Handle Instant 1-Tap CTA Click & Touch Rerouting
+  const handleCtaClick = (e?: React.SyntheticEvent, overrideAmount?: number) => {
+    trackMetaEvent('InitiateCheckout', {
+      content_name: 'Campanha Bem-Estar - Neuza e Filhos',
+      currency: 'BRL',
+      value: overrideAmount || selectedAmount || 50,
+    });
+
+    const target = checkoutTargetUrl || DEFAULT_CHECKOUT_URL;
+    if (target && typeof window !== 'undefined') {
+      window.location.href = target;
+    }
+  };
 
   // Handle Exit Intent Detection
   useEffect(() => {
@@ -155,6 +181,11 @@ export default function App() {
   };
 
   const handleOpenDonateModal = () => {
+    trackMetaEvent('InitiateCheckout', {
+      content_name: 'Campanha Bem-Estar - Doar Agora',
+      currency: 'BRL',
+      value: 50,
+    });
     if (customCtaRedirect) {
       window.location.href = customCtaRedirect;
       return;
@@ -164,6 +195,16 @@ export default function App() {
   };
 
   const handleSelectAmount = (amount: number) => {
+    trackMetaEvent('Donate', {
+      content_name: 'Escolha de Valor Doação',
+      currency: 'BRL',
+      value: amount,
+    });
+    trackMetaEvent('InitiateCheckout', {
+      content_name: 'Checkout Iniciado Doação',
+      currency: 'BRL',
+      value: amount,
+    });
     if (customCtaRedirect) {
       try {
         const url = new URL(customCtaRedirect, window.location.href);
@@ -508,6 +549,14 @@ export default function App() {
                   <a
                     href={checkoutTargetUrl}
                     className="inline-story-cta block text-center text-decoration-none"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleCtaClick(e);
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      handleCtaClick(e);
+                    }}
                   >
                     ❤️ AJUDAR AGORA
                   </a>
@@ -538,6 +587,7 @@ export default function App() {
                     <a
                       href={checkoutTargetUrl}
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
+                      onClick={(e) => handleCtaClick(e)}
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </a>
@@ -557,6 +607,7 @@ export default function App() {
                     <a
                       href={checkoutTargetUrl}
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
+                      onClick={(e) => handleCtaClick(e)}
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </a>
@@ -576,6 +627,7 @@ export default function App() {
                     <a
                       href={checkoutTargetUrl}
                       className="px-4 py-2 bg-[#24CA68] hover:bg-[#1fab58] text-white text-xs font-bold rounded-lg transition-colors inline-flex items-center gap-2 text-decoration-none"
+                      onClick={(e) => handleCtaClick(e)}
                     >
                       Quero ajudar Neuza e seus filhos <ChevronRight className="w-3.5 h-3.5" />
                     </a>
@@ -667,6 +719,14 @@ export default function App() {
         <a
           href={checkoutTargetUrl}
           className="btn-ajudar text-center flex items-center justify-center text-decoration-none"
+          onClick={(e) => {
+            e.preventDefault();
+            handleCtaClick(e);
+          }}
+          onTouchEnd={(e) => {
+            e.preventDefault();
+            handleCtaClick(e);
+          }}
         >
           ❤️ AJUDAR AGORA
         </a>

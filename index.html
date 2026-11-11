@@ -2,18 +2,47 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>Sem ter o que dar de comer à filha doente, Neuza ainda luta para não vê-la dormir com fome no chão frio. 💔</title>
     <meta name="description" content="Com a filha gravemente doente e correndo risco de morrer, Neuza enfrenta a extrema pobreza e a falta de comida dentro de casa." />
+    
+    <!-- Facebook / Meta Open Graph & In-App Browser Compliance -->
     <meta property="og:title" content="Sem ter o que dar de comer à filha doente, Neuza ainda luta para não vê-la dormir com fome no chão frio. 💔" />
     <meta property="og:description" content="Com a filha gravemente doente e correndo risco de morrer, Neuza enfrenta a extrema pobreza e a falta de comida dentro de casa." />
+    <meta property="og:image" content="/assets/aistudio/hero_neuza.png" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Campanha Bem-Estar" />
+    
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Campanha Bem-Estar - Ajude Neuza e seus filhos" />
+    <meta name="twitter:description" content="Com a filha gravemente doente e correndo risco de morrer, Neuza enfrenta a extrema pobreza e a falta de comida dentro de casa." />
+    <meta name="twitter:image" content="/assets/aistudio/hero_neuza.png" />
+    <!-- Facebook / Meta Pixel Base Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '1441255181536689');
+      fbq('track', 'PageView');
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   </head>
   <body>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1441255181536689&ev=PageView&noscript=1"
+      />
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
