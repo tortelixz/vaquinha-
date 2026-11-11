@@ -139,8 +139,10 @@ export default function App() {
     return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
   };
 
+  const DEFAULT_CHECKOUT_URL = "https://pay.sharkautomacoes.com/c2568e0d";
+
   // Custom CTA Redirect URL state
-  const [customCtaRedirect, setCustomCtaRedirect] = useState<string>('');
+  const [customCtaRedirect, setCustomCtaRedirect] = useState<string>(DEFAULT_CHECKOUT_URL);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -262,15 +264,15 @@ export default function App() {
       <header className="site-header">
         <div className="site-header__inner">
           <div className="site-header__left">
-            <a href="#topo" className="site-header__brand" aria-label="Campanha para Neuza e seus filhos">
+            <a href="#topo" className="site-header__brand" aria-label="Campanha Bem-Estar">
               <svg className="site-header__mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect width="32" height="32" rx="8" fill="#24CA68" />
                 <path d="M16 23.5s-7-4.2-7-9.3c0-2.3 1.7-4 3.7-4 1.3 0 2.4.7 3.3 1.8.9-1.1 2-1.8 3.3-1.8 2 0 3.7 1.7 3.7 4 0 5.1-7 9.3-7 9.3z" fill="#FFFFFF" />
               </svg>
               <span className="wm-text">
                 <span>Campanha</span>
-                <span className="wm-mid">da</span>
-                <span>Neuza</span>
+                <span className="wm-mid">do</span>
+                <span>Bem-Estar</span>
               </span>
             </a>
           </div>
@@ -352,7 +354,7 @@ export default function App() {
           <div className="detalhes-view mb-4">
             <div className="hero-image-container">
               <img
-                src="/assets/aistudio/banner-4007_5c1e194b.webp"
+                src="/assets/aistudio/hero_neuza.png"
                 alt="Neuza e seus filhos enfrentam a fome e a doença grave da filha"
                 className="w-full h-auto object-cover"
               />
@@ -506,7 +508,7 @@ export default function App() {
                     className="inline-story-cta"
                     onClick={handleOpenDonateModal}
                   >
-                    ❤️ QUERO AJUDAR NEUZA E SEUS FILHOS
+                    ❤️ AJUDAR AGORA
                   </button>
                 </section>
               </div>
@@ -669,7 +671,7 @@ export default function App() {
           className="btn-ajudar"
           onClick={handleOpenDonateModal}
         >
-          ❤️ AJUDAR NEUZA AGORA
+          ❤️ AJUDAR AGORA
         </button>
       </div>
 
@@ -1011,7 +1013,7 @@ export default function App() {
 
             <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md mx-auto mb-3">
               <img
-                src="/assets/aistudio/banner-4007_5c1e194b.webp"
+                src="/assets/aistudio/hero_neuza.png"
                 alt="Neuza e seus filhos"
                 className="w-full h-full object-cover"
               />

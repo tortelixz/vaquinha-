@@ -1,6 +1,6 @@
 {
-  "name": "Campanha do Bem - Apoio com Parkinson",
-  "description": "Campanha de arrecadação para apoio ao trabalhador com Parkinsonismo.",
+  "name": "Campanha Bem-Estar",
+  "description": "Campanha de arrecadação e apoio para Neuza e seus filhos.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
